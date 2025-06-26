@@ -2,53 +2,56 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Teleport Links</title>
+  <title>Teleport to Topics in Second Life</title>
   <style>
-    body { font-family: sans-serif; padding: 2em; background: #f0f0f0; }
-    h1 { color: #333; }
-    a {
-      display: block;
-      margin: 1em 0;
-      padding: 0.5em;
-      background: #fff;
-      border-left: 4px solid #6c5ce7;
-      text-decoration: none;
-      color: #2d3436;
-    }
-    a:hover {
-      background: #dfe6e9;
-    }
+    body { font-family: sans-serif; padding: 1em; }
+    a { display: block; margin: 0.5em 0; font-size: 1.2em; }
   </style>
 </head>
 <body>
   <h1>Teleport to Topics in Second Life</h1>
+  <div id="linkArea">Loading links...</div>
 
-<body>
-  <h1>Teleport to Topics in Second Life</h1>
+  <script>
+    const isSL = navigator.userAgent.includes("SecondLife");
 
-  <p>
-    <strong>To Kill a Mockingbird</strong><br>
-    <a href="http://maps.secondlife.com/secondlife/The%20Northern%20Forests/54/78/31" target="_blank">View on Map</a> |
-    <a href="secondlife:///app/teleport/The Northern Forests/54/78/31">Teleport (in SL viewer)</a>
-  </p>
+    const locations = [
+      {
+        name: "To Kill a Mockingbird",
+        sim: "The Northern Forests",
+        x: 54, y: 78, z: 31
+      },
+      {
+        name: "Abbey Road",
+        sim: "The Northern Forests",
+        x: 54, y: 79, z: 31
+      },
+      {
+        name: "Bibliography",
+        sim: "The Northern Forests",
+        x: 54, y: 80, z: 31
+      },
+      {
+        name: "Gary",
+        sim: "The Northern Forests",
+        x: 54, y: 81, z: 31
+      }
+    ];
 
-  <p>
-    <strong>Abbey Road</strong><br>
-    <a href="http://maps.secondlife.com/secondlife/The%20Northern%20Forests/54/79/31" target="_blank">View on Map</a> |
-    <a href="secondlife:///app/teleport/The Northern Forests/54/79/31">Teleport (in SL viewer)</a>
-  </p>
+    const linkArea = document.getElementById("linkArea");
+    linkArea.innerHTML = ""; // clear "loading"
 
-  <p>
-    <strong>Bibliography</strong><br>
-    <a href="http://maps.secondlife.com/secondlife/The%20Northern%20Forests/54/80/31" target="_blank">View on Map</a> |
-    <a href="secondlife:///app/teleport/The Northern Forests/54/80/31">Teleport (in SL viewer)</a>
-  </p>
+    locations.forEach(loc => {
+      const webSLURL = `http://maps.secondlife.com/secondlife/${encodeURIComponent(loc.sim)}/${loc.x}/${loc.y}/${loc.z}`;
+      const inworldSLURL = `secondlife:///app/teleport/${loc.sim}/${loc.x}/${loc.y}/${loc.z}`;
 
-  <p>
-    <strong>Gary</strong><br>
-    <a href="http://maps.secondlife.com/secondlife/The%20Northern%20Forests/54/81/31" target="_blank">View on Map</a> |
-    <a href="secondlife:///app/teleport/The Northern Forests/54/81/31">Teleport (in SL viewer)</a>
-  </p>
-</body>
+      const a = document.createElement("a");
+      a.href = isSL ? inworldSLURL : webSLURL;
+      a.target = isSL ? "_self" : "_blank";
+      a.textContent = loc.name;
+
+      linkArea.appendChild(a);
+    });
+  </script>
 </body>
 </html>
